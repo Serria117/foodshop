@@ -560,6 +560,16 @@ ol {
   Hero
 -----------------------*/
 
+.x-side ul {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 46px;
+	width: 100%;
+	z-index: 9;
+	background: #ffffff;
+}
+
 .hero {
 	padding-bottom: 50px;
 }
@@ -617,7 +627,7 @@ ol {
 
 .hero__categories ul {
 	border: 1px solid #ebebeb;
-	padding-left: 40px;
+	padding-left: 30px;
 	padding-top: 10px;
 	padding-bottom: 12px;
 }

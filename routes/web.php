@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\client\homeController;
-use App\Http\Controllers\client\productController;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +12,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::namespace('client')->group(function(){
-    Route::get('/', 'homeController@index')->name('home');
-    Route::resource('sanpham', 'productController');
+
+Route::get('/', 'homeController@index')->name('home');
+
+Route::group(['prefix'=>'sanpham'], function(){
+    Route::get('/', 'shopController@index')->name('sanpham');
+    Route::get('chitiet/{id}', 'shopController@detail')->name('chitiet');
+    
 });
 
-Route::prefix('admin')->group(function(){
+Route::group(['prefix'=>'admin'], function(){
     Route::get('/', 'adminController@index')->name('admin.dashboard');
 });
