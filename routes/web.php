@@ -12,17 +12,18 @@ use App\Http\Controllers\homeController;
 |-------------------------------------------------------------------------|
 |
 */
+
 Route::get('/', [homeController::class, 'index'])->name('home');
 
-Route::group(['prefix'=>'sanpham'], function(){
+Route::group(['prefix' => 'sanpham'], function () {
     Route::get('/', [shopController::class, 'index'])->name('sanpham');
-    Route::get('chitiet/{id}', 'shopController@detail')->name('chitiet');
+    Route::get('chitiet/{id}/{slug}', 'shopController@detail')->name('chitiet');
 });
 
-Route::group(['prefix'=>'admin'], function(){
+Route::group(['prefix' => 'admin'], function () {
     Route::get('login', [adminLoginController::class, 'index'])->name('login');
-    Route::middleware('auth')->group(function(){
-        Route::post('login/store', [adminLoginController::class, 'store'])->name('admin.store');
+    Route::post('login/store', [adminLoginController::class, 'store'])->name('admin.store');
+    Route::middleware('auth:webadmin')->group(function () {
         Route::get('/', [adminController::class, 'index'])->name('admin.dashboard');
     });
 });

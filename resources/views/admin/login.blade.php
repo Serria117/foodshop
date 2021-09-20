@@ -29,13 +29,13 @@
                     </div>
                     <h3 class="text-center mb-4">Sign In</h3>
                     <form action="login/store" class="login-form" method="post">
-                        @csrf
+                        <input type="hidden" name="_token" data-token="token" value="{{ csrf_token() }}" />
                         <div class="form-group">
                             <input type="text" name="name" class="form-control rounded-left" placeholder="Username">
                         </div>
                         <div class="form-group d-flex">
                             <input type="password" name="password" class="form-control rounded-left"
-                                   placeholder="Password" required>
+                                   placeholder="Password">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="form-control btn btn-primary rounded submit px-3">Login

@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\product;
 use Illuminate\Http\Request;
 
 class shopController extends Controller
 {
     public function index()
     {
-        return view('client.shop');
+        $product = product::all()->where('status','=', 1);
+        return view('client.shop', compact('product'));
     }
 
-    public function detail($id): string
+    public function detail($id)
     {
-        return "Chi tiết sản phẩm $id";
+        $productDetail = product::all()->where('id','=',$id);
+        return view('client.detail', compact('productDetail'));
     }
 }

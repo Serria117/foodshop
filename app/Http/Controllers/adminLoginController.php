@@ -15,16 +15,35 @@ class adminLoginController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'password' => 'required'
-        ]);
-        if (Auth::attempt(['name' => $request->input('name'), 'password' => $request->input('password')
-        ], $request->input('remember'))) {
-            return redirect()->route('admin.dashboard');
+        // dd($request->input());
+        $this->validate($request,
+            [
+                'name' => 'required',
+                'password' => 'required'
+            ],
+            [
+                'name.required' => 'Username cannot be left empty.',
+                'password.required' => 'Password cannot be left empty.',
+            ]
+        );
+        $login = Auth::guard('webadmin');
+        $user = $login->attempt([
+            'username' => $request->input('name'),
+            'password' => $request->input('password'),
+            ], $request->input('remember'));
+
+        if ($user) {
+            if($login->user()->status === 1) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->back()->withErrors('Account has been locked.');
+            }
         }
-        return redirect()->back();
+        return redirect()->back()->withErrors('Invalid username or password.');
     }
 }
